@@ -1,0 +1,171 @@
+<title>밀양 드론촬영 동선</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* 레이아웃: 상단 요약 → 경로 지도(전체+시내 확대) → 순서별 카드(시간·주소·지도 버튼) */
+:root{
+  --bg:#eef2f4; --card:#ffffff; --fg:#14202b; --muted:#5b6b78; --line:#d3dce3;
+  --accent:#e8590c; --route:#2f6f8f; --night:#3b3a8f; --soft:#e3ebf0;
+  --f-body:"Noto Sans KR",system-ui,sans-serif; --f-num:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f161c; --card:#17222b; --fg:#e6edf2; --muted:#93a4b1; --line:#2a3a46;
+  --accent:#ff8a3d; --route:#6fb3d2; --night:#9d9cf0; --soft:#1e2c37; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161c; --card:#17222b; --fg:#e6edf2; --muted:#93a4b1; --line:#2a3a46;
+  --accent:#ff8a3d; --route:#6fb3d2; --night:#9d9cf0; --soft:#1e2c37; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);line-height:1.55;font-size:15px}
+.wrap{max-width:760px;margin:0 auto;padding-block:20px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:20px}
+h1{font-size:1.6rem;font-weight:900;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:1.05rem;margin:0 0 10px;font-weight:700}
+.sub{color:var(--muted);margin:4px 0 0;font-size:.92rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
+.stat b{display:block;font-family:var(--f-num);font-size:1.05rem}
+.stat span{font-size:.78rem;color:var(--muted)}
+@media (max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.maps{display:grid;grid-template-columns:3fr 2fr;gap:12px}
+@media (max-width:600px){.maps{grid-template-columns:1fr}}
+.maps figure{margin:0;min-width:0}
+.maps figcaption{font-size:.78rem;color:var(--muted);margin-top:4px}
+svg{width:100%;height:auto;display:block;background:var(--soft);border-radius:8px}
+.note{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+.warn{background:var(--soft);border-left:3px solid var(--accent);padding:10px 12px;border-radius:6px;font-size:.88rem}
+.warn ul{margin:6px 0 0;padding-left:18px}
+.list{display:flex;flex-direction:column;gap:10px}
+.leg{font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:8px;padding-left:4px;font-family:var(--f-num)}
+.leg::before{content:"";width:2px;height:18px;background:var(--route);margin-left:14px}
+.stop{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:36px 1fr;gap:10px}
+.stop.night .no{background:var(--night)}
+.no{width:32px;height:32px;border-radius:50%;background:var(--route);color:#fff;font-weight:700;display:grid;place-items:center;font-size:.85rem;font-family:var(--f-num)}
+.body{min-width:0;display:flex;flex-direction:column;gap:4px}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 10px;align-items:baseline}
+.name{font-weight:700;font-size:1.02rem}
+.time{font-family:var(--f-num);color:var(--accent);font-weight:600;font-size:.92rem}
+.sub7{margin:2px 0 0;padding-left:16px;font-size:.88rem}
+.addr{font-size:.9rem;word-break:keep-all}
+.meta{font-size:.82rem;color:var(--muted)}
+.point{font-size:.88rem}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.btns a,.btns button{font:inherit;font-size:.82rem;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--soft);color:var(--fg);text-decoration:none;cursor:pointer}
+.btns a.k{background:#fee500;color:#191919;border-color:#e5cf00}
+.btns a:focus-visible,.btns button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tip{font-size:.86rem;background:var(--soft);border-radius:8px;padding:8px 10px}
+.tip b{color:var(--accent);margin-right:4px}
+.dl{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--route);color:#fff;text-decoration:none;font-weight:700;padding:10px 14px;border-radius:10px;font-size:.92rem}
+.dl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lunch{font-size:.88rem;color:var(--muted);text-align:center;padding:6px;border:1px dashed var(--line);border-radius:10px}
+footer{font-size:.78rem;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>밀양 드론촬영 동선</h1>
+    <p class="sub">프리미엄 이미지 촬영 · 하루 코스 · 07:30 얼음골케이블카 시작 → 19:30 영남루 별빛정원 종료</p>
+    <a class="dl" href="밀양_드론촬영_동선.xlsx" download>⬇ 엑셀 촬영순서표 다운로드</a>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b>18곳</b><span>지점 (대상 24곳)</span></div>
+    <div class="stat"><b>7:15</b><span>총 촬영시간</span></div>
+    <div class="stat"><b>3:40</b><span>총 이동시간</span></div>
+    <div class="stat"><b>12:00</b><span>점심·대기 포함 전체</span></div>
+  </div>
+
+  <div class="warn"><b>출발 전 꼭 확인</b>
+    <ul>
+      <li><b>월요일 촬영 불가</b>: ⑤ 선샤인밀양테마파크·⑨ 우주천문대 휴무</li>
+      <li>⑯~⑱ 야간비행은 특별비행승인, 영남루(국보)는 국가유산 촬영허가 필요 · 전 지점 드론원스톱 비행승인 확인</li>
+      <li>이동시간은 추정치예요. 각 카드의 <b>카카오맵</b> 버튼으로 실제 길찾기를 하세요</li>
+    </ul>
+  </div>
+
+  <section class="panel">
+    <h2>경로 지도</h2>
+    <div class="maps">
+      <figure><svg id="mapAll" role="img" aria-label="밀양 전체 촬영 경로"></svg><figcaption>전체 경로 (위쪽이 북쪽)</figcaption></figure>
+      <figure><svg id="mapCity" role="img" aria-label="밀양 시내 촬영 지점 확대"></svg><figcaption>시내 구간 확대 (⑦~⑩, ⑯~⑱)</figcaption></figure>
+    </div>
+    <p class="note">● 파랑 = 낮 촬영 · ● 보라 = 야간 촬영 · 위치는 개략도이며, 정확한 위치는 카드의 지도 버튼으로 확인</p>
+  </section>
+
+  <section>
+    <h2>순서별 촬영 계획</h2>
+    <div class="list" id="list"></div>
+  </section>
+
+  <footer>주소는 국가유산포털·한국관광공사·밀양시 자료로 대조했습니다. 별빛정원: 18:00~23:00 운영, 입장 마감 22:00, 성인 5,000원.</footer>
+</div>
+
+<script>
+const S=[{"n": "1", "name": "얼음골케이블카", "lat": 35.5828, "lng": 128.9871, "leg": "현장 집결 07:20", "st": "07:30", "en": "07:55", "min": 25, "addr": "경남 밀양시 산내면 얼음골로 241", "open": "운행 08:30~17:00 · 외부 촬영 상시", "pt": "영남알프스 능선을 오르는 케이블카(1.8km, 상부 해발 1,020m). 케이블 라인과 늦가을 산세를 한 프레임에.", "tip": "내비에 '얼음골케이블카' 검색 → 하부승강장 전용주차장. 만차 시 얼음골신비테마관(얼음골로 180) 무료주차장에서 도보 10분. 산 능선은 바람이 강하니 풍속 확인 후 이륙.", "q": "밀양 얼음골케이블카"}, {"n": "2", "name": "국립밀양등산학교", "lat": 35.59, "lng": 128.93, "leg": "07:55 → 08:05", "mv": 10, "st": "08:05", "en": "08:20", "min": 15, "addr": "경남 밀양시 산내면 산내로 1647-1", "open": "외부 상시", "pt": "건물 외관·인공암벽장 + 가지산·운문산 배경.", "tip": "산내면 삼양리, 산내로(24번 국도) 길가. 내비에 주소 그대로 입력. 교육시설이라 교육생이 있으면 상공 통과 자제.", "q": "국립밀양등산학교"}, {"n": "3", "name": "우리아이마음숲놀이터", "lat": 35.5325, "lng": 128.9462, "leg": "08:20 → 08:45", "mv": 25, "st": "08:45", "en": "09:05", "min": 20, "addr": "경남 밀양시 단장면 구천리 305-1", "open": "10:00~17:00 (개장 전 빈 놀이터 촬영)", "pt": "표충사 가는 길, 계곡 옆 대형 숲 놀이터(6종). 탑뷰로 시설 형태 강조.", "tip": "표충사 방향 진입, 표충사 관광지구 직전 계곡 옆. 전용주차장(소형 약 57대). 막다른 길이라 촬영 후 같은 길로 되돌아 나옴.", "q": "밀양 우리아이마음숲놀이터"}, {"n": "4", "name": "단장면 허씨고가", "lat": 35.5097, "lng": 128.8522, "leg": "09:05 → 09:20", "mv": 15, "st": "09:20", "en": "09:40", "min": 20, "addr": "경남 밀양시 단장면 단장1길 57", "open": "외부 상시 (사가)", "pt": "1890년경 지은 유학자 가문 한옥(4동). 지붕선 탑다운 + 마을 전경.", "tip": "단장면 소재지 마을 안 한옥. 골목이 좁으니 마을 입구에 주차 후 도보. 사람이 사는 집이라 마당 저공비행 금지.", "q": "밀양 단장면 허씨고가"}, {"n": "5", "name": "선샤인밀양테마파크 (7곳)", "lat": 35.5005, "lng": 128.8343, "leg": "09:40 → 09:50 (10분 대기)", "mv": 10, "st": "10:00", "en": "11:25", "min": 85, "addr": "경남 밀양시 단장면 관광단지로 78", "open": "10:00~17:30 · 월요일 휴무", "pt": "한 단지 안 7곳을 곳당 약 12분씩 순서대로 촬영.", "tip": "주소 검색 시 '파머스마켓'으로 표시돼도 맞는 위치(단지 관문). 전용주차장 넓음. 도착 즉시 단지 운영사무실에 촬영 사실 알리고 시작.", "q": "선샤인밀양테마파크", "sub": [["파머스마켓", "10:00", "10:12", "테마파크 관문, 입구 진입 동선"], ["요가컬처타운", "10:12", "10:24", "요가 테마 건물·광장"], ["네이처에코리움", "10:24", "10:36", "생태전시관 + 외부 식물원·습지"], ["스포츠파크", "10:36", "10:48", "야구장 등 경기장 라인 탑뷰"], ["농촌테마공원", "10:48", "11:00", "체험장·쿠킹스튜디오 + 녹지"], ["반려동물지원센터", "11:00", "11:12", "반려견 놀이터·물놀이장 배치"], ["요가 브랜드이미지", "11:12", "11:25", "단지 전경 + 요가 연출 컷 (모델 필요 여부 확인)"]]}, {"n": "6", "name": "혜산서원", "lat": 35.5042, "lng": 128.8132, "leg": "11:25 → 11:35", "mv": 10, "st": "11:35", "en": "11:55", "min": 20, "addr": "경남 밀양시 산외면 다원1리길 17-18", "open": "상시 개방", "pt": "일직손씨 세거마을 안 서원. 마을과 서원을 함께.", "tip": "서원 앞 주차 공간이 거의 없음 → 다원1구 마을회관에 주차 후 도보. 입구 노송이 표지.", "q": "밀양 혜산서원"}, {"n": "7", "name": "월연정", "lat": 35.4987, "lng": 128.7799, "leg": "11:55 → 12:10", "mv": 15, "st": "12:10", "en": "12:30", "min": 20, "addr": "경남 밀양시 용평로 330-7", "open": "상시", "pt": "밀양강과 단장천이 만나는 절벽 위 정자. 두 물길 합수부가 보이게.", "tip": "용평터널(1차로 교행, 일명 똥개터널)을 지나 진입. 터널 안은 마주 오는 차 양보. 정자 입구 주차 공간이 좁음.", "q": "밀양 월연정"}, {"lunch": "12:30~13:25 점심 (시내)"}, {"n": "8", "name": "오연정", "lat": 35.5085, "lng": 128.7737, "leg": "13:25 → 13:30", "mv": 5, "st": "13:30", "en": "13:50", "min": 20, "addr": "경남 밀양시 용평로 477-17 (교동)", "open": "상시", "pt": "명종 때 정자 + 큰 은행나무 (11월 말엔 낙엽 가능성).", "tip": "입구의 큰 은행나무가 표지. 바로 앞에 숙박업소 건물이 있으니 프레임에서 빼는 각도로.", "q": "밀양 오연정"}, {"n": "9", "name": "밀양아리랑우주천문대", "lat": 35.5025, "lng": 128.7611, "leg": "13:50 → 14:00", "mv": 10, "st": "14:00", "en": "14:15", "min": 15, "addr": "경남 밀양시 밀양대공원로 86", "open": "외부 상시 · 월요일 휴관", "pt": "아리랑대공원 안 돔 천문대 + 밀양 시내 조망.", "tip": "천문대 무료주차장(약 110대)에 주차. 이 주차장에 차를 둔 채 ⑩까지 걸어서 이동.", "q": "밀양아리랑우주천문대"}, {"n": "10", "name": "아리랑대공원 어린이놀이터", "lat": 35.5044, "lng": 128.7601, "leg": "도보 이동", "st": "14:15", "en": "14:30", "min": 15, "addr": "천문대(밀양대공원로 86) 주차장에서 도보 · 대공원 교동 492", "open": "상시 개방", "pt": "천문대 옆 대형 놀이터(미끄럼틀·짚라인). 대공원 녹지와 함께.", "tip": "⑨ 천문대 바로 옆. 아이들이 있으면 머리 위 비행 금지, 높이 유지.", "q": "밀양아리랑대공원 어린이놀이터"}, {"n": "11", "name": "선비문화체험관", "lat": 35.517, "lng": 128.736, "leg": "14:30 → 14:45", "mv": 15, "st": "14:45", "en": "15:00", "min": 15, "addr": "경남 밀양시 부북면 예림서원로 130-10", "open": "외부 상시", "pt": "2026년 6월 개관, 단층 4동 외관 + 바로 옆 예림서원.", "tip": "예림서원(예림서원로 128) 표지판 따라 진입하면 바로 옆. 서원과 체험관을 한 프레임에.", "q": "밀양 선비문화체험관"}, {"n": "12", "name": "청운리 안씨고가", "lat": 35.5272, "lng": 128.7086, "leg": "15:00 → 15:10", "mv": 10, "st": "15:10", "en": "15:30", "min": 20, "addr": "경남 밀양시 부북면 청운2길 20-9", "open": "외부 상시 (사가)", "pt": "ㅁ자형 조선 말 한옥(8동). 마당을 중심으로 한 배치가 보이게 탑뷰.", "tip": "바로 옆 '안세환 가옥'(청운2길 20-11)과 담장 하나 차이라 혼동 주의 → 20-9가 맞음. 마을 안 좁은 길, 마을 입구 주차 권장.", "q": "경남 밀양시 부북면 청운2길 20-9"}, {"n": "13", "name": "삼랑진역 급수탑", "lat": 35.3988, "lng": 128.8448, "leg": "15:30 → 16:05", "mv": 35, "st": "16:05", "en": "16:20", "min": 15, "addr": "경남 밀양시 삼랑진읍 송지리 156-1 (삼랑진역 맞은편)", "open": "상시", "pt": "1923년 설치된 증기기관차 급수시설(등록문화유산). 역·철길과 함께.", "tip": "지번이라 내비가 애매하면 '삼랑진역'(천태로 72) 검색 후 역 맞은편. 덩굴로 덮인 탑이 표지. 선로 상공 비행 금지.", "q": "삼랑진역 급수탑"}, {"n": "14", "name": "삼랑진철교", "lat": 35.379, "lng": 128.833, "leg": "16:20 → 16:25", "mv": 5, "st": "16:25", "en": "16:40", "min": 15, "addr": "경남 밀양시 삼랑진읍 삼랑리 (낙동강, 김해 생림면 방향)", "open": "상시", "pt": "낙동강을 건너는 경전선 철교. 1905년 단선 철교(현 삼랑진인도교)와 1962년 복선 철교가 나란히 있어 두 다리를 함께 탑뷰로.", "tip": "내비에 '삼랑진철교' 또는 옛 '낙동강역'(삼랑진로 119) 검색. 구 인도교는 폭이 좁아 소형차만 통행 → 다리 입구 강변에 세우고 촬영. 운행 열차 위 비행 금지.", "q": "삼랑진철교"}, {"n": "15", "name": "밀양아리랑오토캠핑장", "lat": 35.3511, "lng": 128.7568, "leg": "16:40 → 17:00", "mv": 20, "st": "17:00", "en": "17:20", "min": 20, "addr": "경남 밀양시 하남읍 백산리 474-32", "open": "연중 · 일몰 약 17:15", "pt": "낙동강 둔치 공영 캠핑장(200면). 강 노을 + 사이트 배열.", "tip": "관리사무소 055-359-4636. 캠핑객이 있으니 텐트 위 저공비행 자제. 노을은 강 서쪽 방향.", "q": "밀양아리랑오토캠핑장"}, {"n": "16", "name": "영남루", "lat": 35.4915, "lng": 128.7551, "leg": "17:20 → 17:45", "mv": 25, "st": "17:45", "en": "18:10", "min": 25, "addr": "경남 밀양시 중앙로 324 (내일동)", "open": "경내 09:00~18:00 · 외부·야간 조명 상시", "pt": "밀양강 절벽 위 국보 누각. 강 건너에서 수면 반영 + 점등 블루아워.", "tip": "영남루 주차장(유료, 30분 500원). 수면 반영 컷은 강 건너 삼문동 둔치에서 이륙. 국보라 촬영허가 필수.", "q": "밀양 영남루", "night": 1}, {"n": "17", "name": "달빛쌈지공원", "lat": 35.4958, "lng": 128.7547, "leg": "18:10 → 18:15", "mv": 5, "st": "18:15", "en": "18:40", "min": 25, "addr": "경남 밀양시 내일중앙1길 21-29 (내일동)", "open": "상시 개방", "pt": "옛 배수지를 바꾼 전망공원. 스카이로드 + 밀양 시내 야경.", "tip": "내비에 '밀양여고 정문' 입력하면 언덕을 걷지 않고 바로 진입. 공원 주차장은 작음. 전망대 유리 데크가 흔들리니 장비 거치 주의.", "q": "밀양 달빛쌈지공원", "night": 1}, {"n": "18", "name": "영남루 별빛정원", "lat": 35.493, "lng": 128.757, "leg": "18:40 → 18:45", "mv": 5, "st": "18:45", "en": "19:30", "min": 45, "addr": "경남 밀양시 중앙로 324 일원 (영남루 주변 아동산·무봉공원)", "open": "18:00~23:00 운영 · 입장 마감 22:00 · 성인 5,000원", "pt": "빛·미디어아트·레이저 10개 테마 정원. 조명 패턴 탑뷰 + 영남루와 함께.", "tip": "⑯ 영남루 주차장에 그대로 두고 도보. 매표 후 입장. 관람객이 많으니 사람 머리 위 비행 금지, 정원 운영 측에 촬영 사전 협조.", "q": "영남루 별빛정원", "night": 1}];
+
+const kakao=q=>"https://map.kakao.com/link/search/"+encodeURIComponent(q);
+const naver=q=>"https://map.naver.com/p/search/"+encodeURIComponent(q);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const circled=n=>"①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱"[+n-1];
+
+const list=document.getElementById("list");
+list.innerHTML=S.map(s=>{
+  if(s.lunch) return `<div class="lunch">${s.lunch}</div>`;
+  return `<div class="leg">${esc(s.leg)}${s.mv?" · "+s.mv+"분":""}</div>
+  <article class="stop${s.night?" night":""}" id="s${s.n}">
+    <div class="no">${s.n}</div>
+    <div class="body">
+      <div class="top"><span class="name">${esc(s.name)}</span><span class="time">${s.st}~${s.en} (${s.min}분)</span></div>
+      <div class="addr">📍 <span>${esc(s.addr)}</span></div>
+      <div class="meta">${esc(s.open)}</div>
+      <div class="point">${esc(s.pt)}</div>
+      ${s.sub?`<ul class="sub7">${s.sub.map(x=>`<li>${x[1]} ${esc(x[0])} · ${esc(x[3])}</li>`).join("")}</ul>`:""}
+      <div class="tip"><b>위치 안내</b> ${esc(s.tip)}</div>
+      <div class="btns">
+        <a class="k" href="${kakao(s.q)}" target="_blank" rel="noopener">카카오맵</a>
+        <a href="${naver(s.q)}" target="_blank" rel="noopener">네이버지도</a>
+        <button type="button" data-copy="${esc(s.addr)}">주소 복사</button>
+      </div>
+    </div>
+  </article>`;
+}).join("");
+
+list.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-copy]"); if(!b) return;
+  const t=b.dataset.copy;
+  const done=()=>{const o=b.textContent;b.textContent="복사됨";setTimeout(()=>b.textContent=o,1400)};
+  try{navigator.clipboard.writeText(t).then(done).catch(()=>sel(b))}catch(_){sel(b)}
+});
+function sel(b){const span=b.closest(".body").querySelector(".addr span");const r=document.createRange();r.selectNodeContents(span);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="길게 눌러 복사"}
+
+const NS="http://www.w3.org/2000/svg";
+function draw(id,box,W,H,r,fs,onlyIn){
+  const svg=document.getElementById(id); svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  const pts=S.filter(s=>!s.lunch);
+  const X=l=>14+(l-box.w)/(box.e-box.w)*(W-28), Y=a=>14+(box.n-a)/(box.n-box.s)*(H-28);
+  const path=document.createElementNS(NS,"polyline");
+  path.setAttribute("points",pts.map(s=>X(s.lng)+","+Y(s.lat)).join(" "));
+  path.setAttribute("fill","none");path.setAttribute("stroke","var(--route)");path.setAttribute("stroke-width",onlyIn?2:1.6);
+  path.setAttribute("stroke-dasharray","4 3");path.setAttribute("stroke-linejoin","round");svg.appendChild(path);
+  pts.forEach(s=>{
+    const x=X(s.lng),y=Y(s.lat); if(x<0||x>W||y<0||y>H) return;
+    if(onlyIn && !onlyIn.includes(s.n)) return;
+    const a=document.createElementNS(NS,"a"); a.setAttribute("href","#s"+s.n);
+    const c=document.createElementNS(NS,"circle");c.setAttribute("cx",x);c.setAttribute("cy",y);c.setAttribute("r",r);
+    c.setAttribute("fill",s.night?"var(--night)":"var(--route)");c.setAttribute("stroke","var(--card)");c.setAttribute("stroke-width",1.5);
+    const t=document.createElementNS(NS,"text");t.setAttribute("x",x);t.setAttribute("y",y+fs*0.36);t.setAttribute("text-anchor","middle");
+    t.setAttribute("font-size",fs);t.setAttribute("font-family","IBM Plex Mono, monospace");t.setAttribute("font-weight","600");t.setAttribute("fill","#fff");t.textContent=s.n;
+    a.append(c,t); svg.appendChild(a);
+  });
+  return {X,Y,svg};
+}
+const all=draw("mapAll",{w:128.69,e:129.00,n:35.605,s:35.335},360,330,8,8,["1","2","3","4","5","6","11","12","13","14","15","9"]);
+// 전체 지도 시내 묶음 표시
+(function(){const{X,Y,svg}=all;const x=X(128.766),y=Y(35.499);
+ const b=document.createElementNS(NS,"rect");b.setAttribute("x",x-22);b.setAttribute("y",y-16);b.setAttribute("width",44);b.setAttribute("height",30);b.setAttribute("rx",6);
+ b.setAttribute("fill","none");b.setAttribute("stroke","var(--accent)");b.setAttribute("stroke-width",1.5);svg.appendChild(b);
+ const t=document.createElementNS(NS,"text");t.setAttribute("x",x);t.setAttribute("y",y+28);t.setAttribute("text-anchor","middle");t.setAttribute("font-size",9);t.setAttribute("fill","var(--accent)");t.textContent="시내 확대";svg.appendChild(t);
+ [["밀양강·시내",128.75,35.47],["낙동강",128.79,35.36],["산내",128.95,35.60]].forEach(([l,lng,lat])=>{const tt=document.createElementNS(NS,"text");tt.setAttribute("x",X(lng));tt.setAttribute("y",Y(lat));tt.setAttribute("font-size",9);tt.setAttribute("fill","var(--muted)");tt.setAttribute("text-anchor","middle");tt.textContent=l;svg.appendChild(tt)});
+})();
+draw("mapCity",{w:128.749,e:128.785,n:35.5115,s:35.4885},240,220,10,9,["7","8","9","10","16","17","18"]);
+</script>
